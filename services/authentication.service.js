@@ -17,8 +17,7 @@ function AuthService() {
   self.logout = logout;   // log out any current user
 
   function logout(){
-    self.currentUser.username = null;
-    self.currentUser.password = null;
+    setCurrentUser(null, null);
   }
 
   function login(userInfo){
@@ -31,29 +30,26 @@ function AuthService() {
         return { user: self.currentUser, error: null };
       }
     }
-    return {
-      user: null,
-      error: 'incorrect login information'
-    };
+    return { user: null, error: 'incorrect login information' };
 
   }
 
   function create(newUserInfo) {
     console.log('creating user: ', newUserInfo);
 
+    if (!newUserInfo.username){
+      return { user: null, error: 'username required' };
+    }
+    if (!newUserInfo.password){
+      return { user: null, error: 'password required' };
+    }
     if (newUserInfo.password !== newUserInfo.passwordConfirm){
-      return {
-        user: null,
-        error: 'password and password confirmation do not match'
-      };
+      return { user: null, error: 'password and password confirmation do not match' };
     }
 
     for (var i=0; i<self.users.length; i++){
       if(self.users[i].username === newUserInfo.username){
-        return {
-          user: null,
-          error: 'username is taken'
-        };
+        return { user: null, error: 'username is taken' };
       }
     }
 
@@ -63,27 +59,32 @@ function AuthService() {
     };
 
     self.users.push(newUser);
-    self.currentUser.username = newUser.username; // "logs in" new user
-    self.currentUser.password = newUser.password;
+    setCurrentUser(newUser.username, newUser.password); // optional: "logs in" new user
     return { user: newUser, error: null };   // send back new user
   }
 
 
   function update(username, updatedInfo) {
     console.log('service updating user: ', username);
-    if (username === self.currentUser.username){
+    if (username === self.currentUser.username){ // find user in array - usernames must be unique
+      // get user index in array
       var index = self.users.indexOf(self.currentUser);
-      self.users[index].username = updatedInfo.username;
-      self.users[index].password = updatedInfo.password;
 
-      self.currentUser.username = updatedInfo.username;
-      self.currentUser.password = updatedInfo.password;
-      return {
-        user: self.currentUser,
-        error: null
-      }
+      // change user's info
+      setCurrentUser(updatedInfo.username, updatedInfo.password);
+
+      // make sure change is reflected in array
+      self.users[index] = self.currentUser;
+
+      // return
+      return { user: self.currentUser, error: null };
     } else {
       return { user: null, error: 'must log in as user to edit' };
     }
+  }
+
+  function setCurrentUser(username, password){
+    self.currentUser.username = username;
+    self.currentUser.password = password;
   }
 }

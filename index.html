@@ -8,6 +8,9 @@
   <!-- bootstrap css -->
   <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
+  <!--  custom styles -->
+  <link rel="stylesheet" href="/styles/main.css">
+
   <!-- angular -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.min.js"></script>
 
@@ -23,6 +26,7 @@
   <script type="text/javascript" src="services/authentication.service.js"></script>
 
 
+
   <title>Services</title>
 </head>
 <body>
@@ -30,9 +34,37 @@
     <div class="row">
       <div ng-controller="LayoutController as layoutCtrl" class="col-md-6 col-md-offset-3">
         <h1>Welcome<span ng-show="layoutCtrl.currentUser.username">, {{ layoutCtrl.currentUser.username }}</span>!</h1>
-        <button ng-click="layoutCtrl.login({ username: 'guest', password: 'password'})">Log in as Guest</button>
-        <button ng-click="layoutCtrl.logout()">Log out</button>
+        <button class="btn btn-default" ng-click="layoutCtrl.logout()">Log out</button>
       </div>
+      <hr>
+      <div ng-controller="LoginController as loginCtrl" class="col-md-6 col-md-offset-3">
+        <form ng-submit="loginCtrl.login()">
+          <input type="text" ng-model="loginCtrl.loginInfo.name" placeholder="Username"></input>
+          <input type="password" ng-model="loginCtrl.loginInfo.pw" placeholder="Password"></input>
+          <br/>
+          <p class="clickable" ng-click="loginCtrl.useGuestInfo()">Use Guest Information</p>
+          <button type="submit" class="btn btn-success">Log In</button>
+        </form>
+
+        <div class="alert alert-danger" ng-show="loginCtrl.error">
+          <strong>Error:</strong> {{loginCtrl.error}}.
+        </div>
+      </div>
+      <hr>
+      <div ng-controller="SignupController as signupCtrl" class="col-md-6 col-md-offset-3">
+        <form ng-submit="signupCtrl.signup()">
+          <input type="text" ng-model="signupCtrl.signupInfo.name" placeholder="Username"></input>
+          <input type="password" ng-model="signupCtrl.signupInfo.pw" placeholder="Password"></input>
+          <input type="password" ng-model="signupCtrl.signupInfo.pwConfirm" placeholder="Confirm Password"></input>
+          <br/>
+          <button type="submit" class="btn btn-success">Sign Up</button>
+        </form>
+
+        <div class="alert alert-danger" ng-show="signupCtrl.error">
+          <strong>Error:</strong> {{signupCtrl.error}}.
+        </div>
+      </div>
+      <hr>
       <div class="col-md-6 col-md-offset-3">
         <div ng-view></div>
       </div>
