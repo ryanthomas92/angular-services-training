@@ -19,6 +19,8 @@
   <script type="text/javascript" src="controllers/BooksIndex.controller.js"></script>
   <script type="text/javascript" src="controllers/BooksShow.controller.js"></script>
   <script type="text/javascript" src="services/book.service.js"></script>
+  <script type="text/javascript" src="controllers/Layout.controller.js"></script>
+  <script type="text/javascript" src="services/authentication.service.js"></script>
 
 
   <title>Services</title>
@@ -26,6 +28,11 @@
 <body>
   <div class="container">
     <div class="row">
+      <div ng-controller="LayoutController as layoutCtrl" class="col-md-6 col-md-offset-3">
+        <h1>Welcome<span ng-show="layoutCtrl.currentUser.username">, {{ layoutCtrl.currentUser.username }}</span>!</h1>
+        <button ng-click="layoutCtrl.login({ username: 'guest', password: 'password'})">Log in as Guest</button>
+        <button ng-click="layoutCtrl.logout()">Log out</button>
+      </div>
       <div class="col-md-6 col-md-offset-3">
         <div ng-view></div>
       </div>
