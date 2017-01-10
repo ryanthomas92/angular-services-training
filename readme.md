@@ -2,7 +2,9 @@
 
 ### Overview
 
-Today we'll put those best practices into practice by refactoring part of a book app! We'll refactor code to move AJAX requests out of the controller, and we'll practice using promises.
+We've learned that it's best practice to let controllers in Angular just handle the view and to move logic about acquiring data into services.  Today we'll put those best practices into practice by refactoring part of a book app! We'll refactor code to move AJAX requests out of the controller, and we'll practice using promises.
+
+> Note: Services are a best practice, but they're not required to make a working Angular app.  If you're looking for a quick and dirty mockup, you may not need services. 
 
 ### Investigate Existing Code
 
@@ -43,8 +45,6 @@ Today we'll put those best practices into practice by refactoring part of a book
 
 ### `ngResource`
 
-Many sites employ RESTful conventions, so they serve things in very similar ways. What if we could reuse a service like this for any API with RESTful routes?
-
-It turns out the Angular community thought of that a long time ago.  The module `ngResource` implements a service very similar to the one we just built! If you're using a RESTful API, you can often replace `$http` with `ngResource`.
+Many sites employ RESTful conventions, so they serve things in very similar ways. The module `ngResource` implements a service very similar to the one we just built! If you're using a RESTful API, you can often replace `$http` with `ngResource`.
 
 Check the `ngResource` solution branch to compare, and/or check out this resource on `$resource`: [http://www.sitepoint.com/creating-crud-app-minutes-angulars-resource/](http://www.sitepoint.com/creating-crud-app-minutes-angulars-resource/)
